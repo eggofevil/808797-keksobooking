@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Алексей Гурин](https://up.htmlacademy.ru/javascript/16/user/808797).
-* Наставник: `Неизвестно`.
+* Наставник: [Константин Цуканов] (https://htmlacademy.ru/profile/id769011).
 
 ---
 
