@@ -1,7 +1,5 @@
 'use strict';
 
-var PIN_WIDTH = 50;
-var PIN_HEIGHT = 70;
 var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var mapFiltersContainer = document.querySelector('.map__filters-container');
@@ -65,14 +63,20 @@ var offers = createSimulatedOffers(8);
 
 var createPins = function (mapObject) {
   var pin = pinTemplate.cloneNode(true);
+  var halfPinWidth = window.getComputedStyle(pin).width / 2;
+  var pinHeight = window.getComputedStyle(pin).height;
   var getPinCoords = function (addressString) {
-    var arr = addressString.split(',');
-    var xLocation = arr[0] - PIN_WIDTH / 2;
-    var yLocation = arr[1] - PIN_HEIGHT;
-    return 'left: ' + xLocation + 'px; top: ' + yLocation + 'px;';
+    var addressCoords = addressString.split(',');
+    var xLocation = addressCoords[0] - halfPinWidth;
+    var yLocation = addressCoords[1] - pinHeight;
+    return {
+      x: xLocation + 'px',
+      y: yLocation + 'px'
+    };
   };
-
-  pin.setAttribute('style', getPinCoords(mapObject.address));
+  var pinCoords = getPinCoords(mapObject.address);
+  pin.style.left = pinCoords.x;
+  pin.style.top = pinCoords.y;
   pin.firstChild.setAttribute('src', mapObject.avatar);
   pin.firstChild.setAttribute('alt', mapObject.title);
   return pin;
