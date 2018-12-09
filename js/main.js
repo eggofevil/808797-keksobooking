@@ -14,23 +14,24 @@ var createSimulatedOffers = function (simulatedOffersNumber) {
   var featuresList = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var photosList = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-  var getRndInteger = function (min, max) {
+  var getRandomInteger = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  var shuffleArray = function (initialArray) {
-    var newArray = initialArray.slice();
-    for (var i = newArray.length - 1; i >= 0; i--) {
-      var rndNum = getRndInteger(0, i);
-      var temp = newArray[i];
-      newArray[i] = newArray[rndNum];
-      newArray[rndNum] = temp;
+  var shuffleArray = function (elements) {
+    elements = elements.slice();
+    var i = elements.length - 1;
+    while (i--) {
+      var randomIndex = getRandomInteger(0, i);
+      var temp = elements[i];
+      elements[i] = elements[randomIndex];
+      elements[randomIndex] = temp;
     }
-    return newArray;
+    return elements;
   };
 
   var getSimulatedOfferFeatures = function (list) {
-    var newListLength = getRndInteger(1, 6);
+    var newListLength = getRandomInteger(1, 6);
     var newList = shuffleArray(list).slice(0, newListLength);
     return newList;
   };
@@ -44,13 +45,13 @@ var createSimulatedOffers = function (simulatedOffersNumber) {
     simulatedOffers[i] = {
       avatar: 'img/avatars/user0' + (i + 1) + '.png',
       title: titlesList[i],
-      address: '' + getRndInteger(0, getContainerWidth(mapPins)) + ', ' + getRndInteger(130, 630),
-      price: getRndInteger(1000, 1000000),
-      type: typesList[getRndInteger(0, 3)],
-      rooms: getRndInteger(1, 5),
-      guests: getRndInteger(1, 10),
-      checkin: timesList[getRndInteger(0, 2)],
-      checkout: timesList[getRndInteger(0, 2)],
+      address: '' + getRandomInteger(0, getContainerWidth(mapPins)) + ', ' + getRandomInteger(130, 630),
+      price: getRandomInteger(1000, 1000000),
+      type: typesList[getRandomInteger(0, 3)],
+      rooms: getRandomInteger(1, 5),
+      guests: getRandomInteger(1, 10),
+      checkin: timesList[getRandomInteger(0, 2)],
+      checkout: timesList[getRandomInteger(0, 2)],
       features: getSimulatedOfferFeatures(featuresList),
       description: '',
       photos: shuffleArray(photosList)
@@ -61,7 +62,7 @@ var createSimulatedOffers = function (simulatedOffersNumber) {
 
 var offers = createSimulatedOffers(8);
 
-var createPins = function (mapObject) {
+var createPin = function (offer) {
   var pin = pinTemplate.cloneNode(true);
   var halfPinWidth = window.getComputedStyle(pin).width / 2;
   var pinHeight = window.getComputedStyle(pin).height;
@@ -74,11 +75,11 @@ var createPins = function (mapObject) {
       y: yLocation + 'px'
     };
   };
-  var pinCoords = getPinCoords(mapObject.address);
+  var pinCoords = getPinCoords(offer.address);
   pin.style.left = pinCoords.x;
   pin.style.top = pinCoords.y;
-  pin.firstChild.setAttribute('src', mapObject.avatar);
-  pin.firstChild.setAttribute('alt', mapObject.title);
+  pin.firstChild.setAttribute('src', offer.avatar);
+  pin.firstChild.setAttribute('alt', offer.title);
   return pin;
 };
 
@@ -153,7 +154,7 @@ var createCard = function (offer) {
 
 var pinsFragment = document.createDocumentFragment();
 for (var i = 0; i < offers.length; i++) {
-  pinsFragment.appendChild(createPins(offers[i]));
+  pinsFragment.appendChild(createPin(offers[i]));
 }
 mapPins.appendChild(pinsFragment);
 map.insertBefore(createCard(offers[0]), mapFiltersContainer);
