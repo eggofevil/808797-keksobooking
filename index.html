@@ -16,7 +16,7 @@
     </div>
 
     <!-- Карта объявлений -->
-    <section class="map">
+    <section class="map map--faded">
 
       <!-- Метки объявлений -->
       <div class="map__pins">
@@ -104,7 +104,7 @@
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--wide">
           <label class="ad-form__label" for="address">Адрес</label>
-          <input id="address" name="address" type="text">
+          <input id="address" name="address" type="text" readonly>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="type">Тип жилья</label>
@@ -247,6 +247,13 @@
       <button class="error__button" href="#">Попробовать снова</button>
     </div>
   </template>
+  <script src="js/util.js"></script>
+  <script src="js/variables.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/pin-main.js"></script>
+  <script src="js/ad-form.js"></script>
+  <script src="js/mock.js"></script>
+  <script src="js/pins.js"></script>
+  <script src="js/cards.js"></script>
 </body>
 </html>
