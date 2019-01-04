@@ -16,16 +16,22 @@
     return pinMainAddressX + ', ' + pinMainAddressY;
   };
 
-  pinMain.addEventListener('mouseup', function () {
-    window.variables.map.classList.remove('map--faded');
-    window.variables.adForm.classList.remove('ad-form--disabled');
-    window.main.activateInputs(window.variables.adFormInputs);
-    window.main.activateInputs(window.variables.mapFiltersInputs);
-    window.pins.renderPins();
-    window.variables.adFormAddress.value = getPinMainAddress();
-  });
+  var activatePage = function () {
+    window.GeneralElements.map.classList.remove('map--faded');
+    window.GeneralElements.adForm.classList.remove('ad-form--disabled');
+    window.Main.activateInputs(window.GeneralElements.adFormInputs);
+    window.Main.activateInputs(window.GeneralElements.mapFiltersInputs);
+    window.Pins.renderPins();
+    pinMain.removeEventListener('mouseup', activatePage);
+  };
+  var setAdFormAddress = function () {
+    window.GeneralElements.adFormAddress.value = getPinMainAddress();
+  };
 
-  window.pinMain = {
+  pinMain.addEventListener('mouseup', activatePage);
+  pinMain.addEventListener('mouseup', setAdFormAddress);
+
+  window.PinMain = {
     getPinMainAddress: getPinMainAddress
   };
 })();
