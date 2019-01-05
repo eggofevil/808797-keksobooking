@@ -24,19 +24,19 @@
     pin.firstChild.setAttribute('src', offer.avatar);
     pin.firstChild.setAttribute('alt', offer.title);
     pin.addEventListener('click', function () {
-      window.Cards.renderCard(offer);
+      window.cards.renderCard(offer);
     });
     return pin;
   };
 
   var renderPins = function () {
-    for (var i = 0; i < window.Mock.offers.length; i++) {
-      pinsFragment.appendChild(createPin(window.Mock.offers[i]));
+    for (var i = 0; i < window.mock.offers.length; i++) {
+      pinsFragment.appendChild(createPin(window.mock.offers[i]));
     }
-    window.GeneralElements.mapPinsContainer.appendChild(pinsFragment);
+    window.generalElements.mapPinsContainer.appendChild(pinsFragment);
   };
 
-  window.Pins = {
+  window.pins = {
     renderPins: renderPins
   };
 })();

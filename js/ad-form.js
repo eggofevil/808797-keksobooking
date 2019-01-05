@@ -2,5 +2,5 @@
 
 /* Модуль ad-form.js */
 (function () {
-  window.GeneralElements.adFormAddress.value = window.PinMain.getPinMainAddress();
+  window.generalElements.adFormAddress.value = window.pinMain.getPinMainAddress();
 })();
