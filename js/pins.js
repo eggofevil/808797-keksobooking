@@ -7,17 +7,18 @@
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinsFragment = document.createDocumentFragment();
 
+  var getPinCoords = function (addressString) {
+    var addressCoords = addressString.split(',');
+    var xLocation = addressCoords[0] - PIN_WIDTH / 2;
+    var yLocation = addressCoords[1] - PIN_HEIGHT;
+    return {
+      x: xLocation + 'px',
+      y: yLocation + 'px'
+    };
+  };
+
   var createPin = function (offer) {
     var pin = pinTemplate.cloneNode(true);
-    var getPinCoords = function (addressString) {
-      var addressCoords = addressString.split(',');
-      var xLocation = addressCoords[0] - PIN_WIDTH / 2;
-      var yLocation = addressCoords[1] - PIN_HEIGHT;
-      return {
-        x: xLocation + 'px',
-        y: yLocation + 'px'
-      };
-    };
     var pinCoords = getPinCoords(offer.address);
     pin.style.left = pinCoords.x;
     pin.style.top = pinCoords.y;

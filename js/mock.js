@@ -20,7 +20,7 @@
       simulatedOffers[i] = {
         avatar: 'img/avatars/user0' + (i + 1) + '.png',
         title: titlesList[i],
-        address: '' + window.util.getRandomInteger(0, window.util.getRoundedElementWidth(window.generalElements.mapPinsContainer)) + ', ' + window.util.getRandomInteger(130, 630),
+        address: '' + window.util.getRandomInteger(0, window.util.getParentElementWidth(window.generalElements.pinMain)) + ', ' + window.util.getRandomInteger(130, 630),
         price: window.util.getRandomInteger(1000, 1000000),
         type: typesList[window.util.getRandomInteger(0, 3)],
         rooms: window.util.getRandomInteger(1, 5),
