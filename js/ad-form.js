@@ -2,13 +2,14 @@
 
 /* Модуль ad-form.js */
 (function () {
-  var housingAddress = document.querySelector('[name="address"]');
-  var housingTypeSelect = document.querySelector('[name="type"]');
-  var housingPriceInput = document.querySelector('[name="price"]');
-  var timeInSelect = document.querySelector('[name="timein"]');
-  var timeOutSelect = document.querySelector('[name="timeout"]');
-  var roomsSelect = document.querySelector('[name="rooms"]');
-  var guestsSelect = document.querySelector('[name="capacity"]');
+  var adFormElements = window.generalElements.adForm.elements;
+  var housingAddress = adFormElements.address;
+  var housingTypeSelect = adFormElements.type;
+  var housingPriceInput = adFormElements.price;
+  var timeInSelect = adFormElements.timein;
+  var timeOutSelect = adFormElements.timeout;
+  var roomsSelect = adFormElements.rooms;
+  var guestsSelect = adFormElements.capacity;
   var guestsSelectOptions = guestsSelect.children;
 
   var housingTypeAndPrice = {
