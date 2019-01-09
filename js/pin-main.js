@@ -17,21 +17,21 @@
   };
 
   var activatePage = function () {
-    window.GeneralElements.map.classList.remove('map--faded');
-    window.GeneralElements.adForm.classList.remove('ad-form--disabled');
-    window.Main.activateInputs(window.GeneralElements.adFormInputs);
-    window.Main.activateInputs(window.GeneralElements.mapFiltersInputs);
-    window.Pins.renderPins();
+    window.generalElements.map.classList.remove('map--faded');
+    window.generalElements.adForm.classList.remove('ad-form--disabled');
+    window.main.activateInputs(window.generalElements.adFormInputs);
+    window.main.activateInputs(window.generalElements.mapFiltersInputs);
+    window.pins.renderPins();
     pinMain.removeEventListener('mouseup', activatePage);
   };
   var setAdFormAddress = function () {
-    window.GeneralElements.adFormAddress.value = getPinMainAddress();
+    window.generalElements.adFormAddress.value = getPinMainAddress();
   };
 
   pinMain.addEventListener('mouseup', activatePage);
   pinMain.addEventListener('mouseup', setAdFormAddress);
 
-  window.PinMain = {
+  window.pinMain = {
     getPinMainAddress: getPinMainAddress
   };
 })();

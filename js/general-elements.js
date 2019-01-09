@@ -9,7 +9,7 @@
   var mapFiltersInputs = document.querySelector('.map__filters').elements;
   var adFormInputs = adForm.elements;
 
-  window.GeneralElements = {
+  window.generalElements = {
     map: map,
     mapPinsContainer: mapPinsContainer,
     mapFiltersInputs: mapFiltersInputs,

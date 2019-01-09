@@ -29,7 +29,7 @@
     return words[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
   };
 
-  window.Util = {
+  window.util = {
     getRandomInteger: getRandomInteger,
     shuffleArray: shuffleArray,
     getRoundedElementWidth: getRoundedElementWidth,

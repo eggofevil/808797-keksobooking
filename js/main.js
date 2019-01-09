@@ -17,10 +17,10 @@
     }
   };
 
-  disableInputs(window.GeneralElements.mapFiltersInputs);
-  disableInputs(window.GeneralElements.adFormInputs);
+  disableInputs(window.generalElements.mapFiltersInputs);
+  disableInputs(window.generalElements.adFormInputs);
 
-  window.Main = {
+  window.main = {
     activateInputs: activateInputs
   };
 })();

@@ -18,7 +18,7 @@
   var cardAvatar = card.querySelector('.popup__avatar');
   var cardClose = card.querySelector('.popup__close');
 
-  var HousingType = {
+  var housingType = {
     flat: 'Квартира',
     bungalo: 'Бунгало',
     house: 'Дом',
@@ -26,7 +26,7 @@
   };
 
   var getCardCapacityString = function (rooms, guests) {
-    return rooms + ' ' + window.Util.declineWord(rooms, ['комната', 'комнаты', 'комнат']) + ' ' + 'для ' + guests + ' ' + (guests > 1 ? 'гостей' : 'гостя');
+    return rooms + ' ' + window.util.declineWord(rooms, ['комната', 'комнаты', 'комнат']) + ' ' + 'для ' + guests + ' ' + (guests > 1 ? 'гостей' : 'гостя');
   };
 
   var setCardPhotos = function (photos) {
@@ -46,7 +46,7 @@
     cardTitle.innerText = offer.title;
     cardAddress.innerText = offer.address;
     cardPrice.innerText = offer.price + ' ₽/ночь';
-    cardType.innerText = HousingType[offer.type] ? HousingType[offer.type] : 'Неведомый теремок';
+    cardType.innerText = housingType[offer.type] ? housingType[offer.type] : 'Неведомый теремок';
     cardCapacity.innerText = getCardCapacityString(offer.rooms, offer.guests);
     cardTime.innerText = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout + '.';
     cardFeatures.innerText = offer.features.join(', ');
@@ -57,7 +57,7 @@
 
   var renderCard = function (offer) {
     if (!document.querySelector('card__popup')) {
-      window.GeneralElements.map.insertBefore(card, mapFiltersContainer);
+      window.generalElements.map.insertBefore(card, mapFiltersContainer);
     }
     fillCard(offer);
   };
@@ -68,7 +68,7 @@
 
   cardClose.addEventListener('click', closeCard);
 
-  window.Cards = {
+  window.cards = {
     renderCard: renderCard
   };
 })();
