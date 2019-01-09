@@ -69,6 +69,8 @@
   roomsSelect.addEventListener('change', function () {
     validateGuests(roomsSelect.value);
   });
+  
+  updateAddressInput();
 
   window.adForm = {
     validateEmptyForm: validateEmptyForm,
