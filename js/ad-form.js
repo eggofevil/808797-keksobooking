@@ -2,12 +2,14 @@
 
 /* Модуль ad-form.js */
 (function () {
-  var housingTypeSelect = document.querySelector('[name="type"]');
-  var housingPriceInput = document.querySelector('[name="price"]');
-  var timeInSelect = document.querySelector('[name="timein"]');
-  var timeOutSelect = document.querySelector('[name="timeout"]');
-  var roomsSelect = document.querySelector('[name="rooms"]');
-  var guestsSelect = document.querySelector('[name="capacity"]');
+  var adFormElements = window.generalElements.adForm.elements;
+  var housingAddress = adFormElements.address;
+  var housingTypeSelect = adFormElements.type;
+  var housingPriceInput = adFormElements.price;
+  var timeInSelect = adFormElements.timein;
+  var timeOutSelect = adFormElements.timeout;
+  var roomsSelect = adFormElements.rooms;
+  var guestsSelect = adFormElements.capacity;
   var guestsSelectOptions = guestsSelect.children;
 
   var housingTypeAndPrice = {
@@ -22,6 +24,9 @@
     1: ['1'],
     2: ['2', '1'],
     3: ['3', '2', '1']
+  };
+  var updateAddressInput = function () {
+    housingAddress.value = window.addressCoords.x + ', ' + window.addressCoords.y;
   };
 
   var validateHousingPrice = function (housingType) {
@@ -45,10 +50,10 @@
   };
 
   var validateEmptyForm = function () {
+    updateAddressInput();
     validateHousingPrice(housingTypeSelect.value);
     validateTimeOut(timeInSelect.value);
     validateGuests(roomsSelect.value);
-    window.generalElements.adFormAddress.value = window.pinMain.getPinMainAddress();
   };
 
   window.generalElements.adForm.addEventListener('reset', function () {
@@ -65,51 +70,10 @@
     validateGuests(roomsSelect.value);
   });
 
+  updateAddressInput();
+
   window.adForm = {
-    validateEmptyForm: validateEmptyForm
+    validateEmptyForm: validateEmptyForm,
+    updateAddressInput: updateAddressInput
   };
 })();
-
-/* Alter */
-
-/* validate time out */
-/*
-var timeOutSelectOptions = timeOutSelect.children;
-
-var validateTimeOut = function (timeIn) {
-  var i = timeOutSelectOptions.length;
-  while (i--) {
-    timeOutSelectOptions[i].removeAttribute('selected');
-    if (timeOutSelectOptions[i].value === timeIn) {
-      timeOutSelectOptions[i].setAttribute('selected', '');
-    }
-  }
-};
-*/
-
-/* validate guests count */
-/*
-var guestsSelectOptions = guestsSelect.children;
-var roomsAndGuests = {
-  100: [0],
-  3: [3, 2, 1],
-  2: [2, 1],
-  1: [1]
-};
-
-var validateGuests = function (rooms) {
-  var possibleGuests = roomsAndGuests[rooms];
-  var i = guestsSelectOptions.length;
-  while (i--) {
-    var guestsNumber = parseInt(guestsSelectOptions[i].value, 10);
-    guestsSelectOptions[i].setAttribute('disabled', '');
-    guestsSelectOptions[i].removeAttribute('selected');
-    if (possibleGuests.indexOf(guestsNumber) > -1) {
-      guestsSelectOptions[i].removeAttribute('disabled');
-      if (possibleGuests.indexOf(guestsNumber) === 0) {
-        guestsSelectOptions[i].setAttribute('selected', '');
-      }
-    }
-  }
-};
-*/
