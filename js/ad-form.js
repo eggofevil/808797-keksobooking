@@ -57,7 +57,7 @@
   };
 
   window.generalElements.adForm.addEventListener('reset', function () {
-    setTimeout(validateEmptyForm, 0);
+    setTimeout(validateEmptyForm, 0); /* Без timout валидация происходит до чистки полей */
   });
 
   housingTypeSelect.addEventListener('change', function () {
