@@ -7,7 +7,7 @@
     window.generalElements.adForm.classList.remove('ad-form--disabled');
     window.main.activateInputs(window.generalElements.adFormInputs);
     window.main.activateInputs(window.generalElements.mapFiltersInputs);
-    window.adForm.validateEmptyForm();
+    window.adForm.resetToDefault();
     window.pins.renderPins();
     window.generalElements.pinMain.removeEventListener('mousedown', activatePage);
   };

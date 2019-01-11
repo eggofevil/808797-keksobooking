@@ -49,7 +49,7 @@
     }
   };
 
-  var validateEmptyForm = function () {
+  var resetToDefault = function () {
     updateAddressInput();
     validateHousingPrice(housingTypeSelect.value);
     validateTimeOut(timeInSelect.value);
@@ -57,7 +57,7 @@
   };
 
   window.generalElements.adForm.addEventListener('reset', function () {
-    setTimeout(validateEmptyForm, 0); /* Без timout валидация происходит до чистки полей */
+    setTimeout(resetToDefault, 0); /* Без timout валидация происходит до чистки полей */
   });
 
   housingTypeSelect.addEventListener('change', function () {
@@ -73,7 +73,7 @@
   updateAddressInput();
 
   window.adForm = {
-    validateEmptyForm: validateEmptyForm,
+    resetToDefault: resetToDefault,
     updateAddressInput: updateAddressInput
   };
 })();
