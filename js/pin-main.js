@@ -23,8 +23,6 @@
     currentCoords.updateCoords();
   };
 
- // window.generalElements.pinMain.addEventListener('mousedown', window.main.activatePage);
-
   window.pinMain = {
     startingCoords: startingCoords,
     currentCoords: currentCoords,
