@@ -6,9 +6,13 @@
   var onGetDataSuccess = function (response) {
     window.backend.offers = response;
   };
+
   var onGetDataError = function (response) {
+    return response;
+    /*
     console.log(response);
     alert('Какая то ошибка при получении данных с сервера :(');
+    */
   };
 
   var actWithServer = function (onLoad, onError, data) {
@@ -26,7 +30,8 @@
       if (xhr.status === 200) {
         onLoad(xhr.response);
       } else {
-        console.log(xhr.status + ' : ' + xhr.statusText);
+        return;
+        /* (xhr.status + ' : ' + xhr.statusText); */
       }
     });
     xhr.addEventListener('error', onError);
