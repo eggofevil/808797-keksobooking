@@ -7,12 +7,15 @@
     window.backend.offers = response;
   };
 
-  var onGetDataError = function (response) {
-    return response;
-    /*
-    console.log(response);
-    alert('Какая то ошибка при получении данных с сервера :(');
-    */
+  var onGetDataError = function (errorData) {
+    var errorElement = document.createElement('div');
+    errorElement.style = 'z-index: 100; text-align: center; background-color: red;';
+    errorElement.style.position = 'absolute';
+    errorElement.style.left = 0;
+    errorElement.style.top = 0;
+    errorElement.style.fontSize = '30px';
+    errorElement.textContent = (errorData);
+    document.body.appendChild(errorElement);
   };
 
   var actWithServer = function (onLoad, onError, data) {
@@ -30,11 +33,12 @@
       if (xhr.status === 200) {
         onLoad(xhr.response);
       } else {
-        return;
-        /* (xhr.status + ' : ' + xhr.statusText); */
+        onError('Oшибка: ' + xhr.status + ' : ' + xhr.statusText);
       }
     });
-    xhr.addEventListener('error', onError);
+    xhr.addEventListener('error', function () {
+      onError('Ошибка соединения');
+    });
     xhr.open(xhrParam.method, xhrParam.url);
     xhr.send(data);
   };
