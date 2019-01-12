@@ -2,15 +2,32 @@
 
 /* Модуль pin-main.js */
 (function () {
-  var activatePage = function () {
-    window.generalElements.map.classList.remove('map--faded');
-    window.generalElements.adForm.classList.remove('ad-form--disabled');
-    window.main.activateInputs(window.generalElements.adFormInputs);
-    window.main.activateInputs(window.generalElements.mapFiltersInputs);
-    window.adForm.resetToDefault();
-    window.pins.renderPins();
-    window.generalElements.pinMain.removeEventListener('mousedown', activatePage);
+  var pinMain = window.generalElements.pinMain;
+
+  var startingCoords = {
+    x: pinMain.style.left,
+    y: pinMain.style.top
   };
 
-  window.generalElements.pinMain.addEventListener('mousedown', activatePage);
+  var currentCoords = {
+    updateCoords: function () {
+      this.x = pinMain.style.left;
+      this.y = pinMain.style.top;
+      window.adForm.currentHousingAddress.updateHousingAddress(parseInt(this.x, 10), parseInt(this.y, 10));
+    }
+  };
+
+  var setToDefault = function () {
+    pinMain.style.left = startingCoords.x;
+    pinMain.style.top = startingCoords.y;
+    currentCoords.updateCoords();
+  };
+
+ // window.generalElements.pinMain.addEventListener('mousedown', window.main.activatePage);
+
+  window.pinMain = {
+    startingCoords: startingCoords,
+    currentCoords: currentCoords,
+    setToDefault: setToDefault,
+  };
 })();

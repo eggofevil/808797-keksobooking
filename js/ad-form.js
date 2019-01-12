@@ -2,6 +2,9 @@
 
 /* Модуль ad-form.js */
 (function () {
+  var PIN_MAIN_ADDRESS_X_OFFSET = 32;
+  var PIN_MAIN_ADDRESS_Y_OFFSET = 81;
+
   var adFormElements = window.generalElements.adForm.elements;
   var housingAddress = adFormElements.address;
   var housingTypeSelect = adFormElements.type;
@@ -25,8 +28,15 @@
     2: ['2', '1'],
     3: ['3', '2', '1']
   };
-  var updateAddressInput = function () {
-    housingAddress.value = window.addressCoords.x + ', ' + window.addressCoords.y;
+
+  var currentHousingAddress = {
+    updateHousingAddress: function (coordsX, coordsY) {
+      if (coordsX && coordsY) {
+        this.x = coordsX + PIN_MAIN_ADDRESS_X_OFFSET;
+        this.y = coordsY + PIN_MAIN_ADDRESS_Y_OFFSET;
+      }
+      housingAddress.value = this.x + ', ' + this.y;
+    }
   };
 
   var validateHousingPrice = function (housingType) {
@@ -49,15 +59,25 @@
     }
   };
 
-  var resetToDefault = function () {
-    updateAddressInput();
+  var setToDefault = function () {
     validateHousingPrice(housingTypeSelect.value);
     validateTimeOut(timeInSelect.value);
     validateGuests(roomsSelect.value);
   };
 
-  window.generalElements.adForm.addEventListener('reset', function () {
-    setTimeout(resetToDefault, 0); /* Без timout валидация происходит до чистки полей */
+  window.generalElements.adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    var onSuccess = function () {
+      var message = document.querySelector('#success').content.querySelector('.success');
+      window.generalElements.adForm.classList.add('ad-form--disabled');
+      window.adFormMessages.onSubmit(message);
+      window.generalElements.adForm.reset();
+    };
+    var onError = function () {
+      var message = document.querySelector('#error').content.querySelector('.error');
+      window.adFormMessages.onSubmit(message);
+    };
+    window.backend.actWithServer(onSuccess, onError, new FormData(window.generalElements.adForm));
   });
 
   housingTypeSelect.addEventListener('change', function () {
@@ -70,10 +90,10 @@
     validateGuests(roomsSelect.value);
   });
 
-  updateAddressInput();
+  currentHousingAddress.updateHousingAddress(parseInt(window.pinMain.startingCoords.x, 10), parseInt(window.pinMain.startingCoords.y, 10));
 
   window.adForm = {
-    resetToDefault: resetToDefault,
-    updateAddressInput: updateAddressInput
+    currentHousingAddress: currentHousingAddress,
+    setToDefault: setToDefault,
   };
 })();
