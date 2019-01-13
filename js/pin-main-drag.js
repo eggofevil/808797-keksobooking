@@ -2,8 +2,6 @@
 
 /* Модуль pin-main-drag.js */
 (function () {
-  var PIN_MAIN_ADDRESS_X_OFFSET = 32;
-  var PIN_MAIN_ADDRESS_Y_OFFSET = 81;
   var pinMain = window.generalElements.pinMain;
   var pinMainCoords = {};
   var mouseCoords = {};
@@ -15,16 +13,16 @@
       y: window.adForm.currentHousingAddress.y - shift.y
     };
     if (pendingAddressCoords.x <= 0) {
-      pinMainCoords.x = 0 - PIN_MAIN_ADDRESS_X_OFFSET;
+      pinMainCoords.x = 0 - window.pinMain.AddressOffset.X;
     } else if (pendingAddressCoords.x >= xMax) {
-      pinMainCoords.x = xMax - PIN_MAIN_ADDRESS_X_OFFSET;
+      pinMainCoords.x = xMax - window.pinMain.AddressOffset.X;
     } else {
       pinMainCoords.x -= shift.x;
     }
     if (pendingAddressCoords.y <= 130) {
-      pinMainCoords.y = 130 - PIN_MAIN_ADDRESS_Y_OFFSET;
+      pinMainCoords.y = 130 - window.pinMain.AddressOffset.Y;
     } else if (pendingAddressCoords.y >= 630) {
-      pinMainCoords.y = 630 - PIN_MAIN_ADDRESS_Y_OFFSET;
+      pinMainCoords.y = 630 - window.pinMain.AddressOffset.Y;
     } else {
       pinMainCoords.y -= shift.y;
     }

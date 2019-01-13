@@ -2,9 +2,6 @@
 
 /* Модуль ad-form.js */
 (function () {
-  var PIN_MAIN_ADDRESS_X_OFFSET = 32;
-  var PIN_MAIN_ADDRESS_Y_OFFSET = 81;
-
   var adFormElements = window.generalElements.adForm.elements;
   var housingAddress = adFormElements.address;
   var housingTypeSelect = adFormElements.type;
@@ -32,8 +29,8 @@
   var currentHousingAddress = {
     updateHousingAddress: function (coordsX, coordsY) {
       if (coordsX && coordsY) {
-        this.x = coordsX + PIN_MAIN_ADDRESS_X_OFFSET;
-        this.y = coordsY + PIN_MAIN_ADDRESS_Y_OFFSET;
+        this.x = coordsX + window.pinMain.AddressOffset.X;
+        this.y = coordsY + window.pinMain.AddressOffset.Y;
       }
       housingAddress.value = this.x + ', ' + this.y;
     }
@@ -68,7 +65,7 @@
   window.generalElements.adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     var onSuccess = function () {
-      var message = document.querySelector('#success').content.querySelector('.success');
+      var message = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
       window.generalElements.adForm.classList.add('ad-form--disabled');
       window.adFormMessages.onSubmit(message);
       window.generalElements.adForm.reset();
@@ -77,7 +74,7 @@
       var message = document.querySelector('#error').content.querySelector('.error');
       window.adFormMessages.onSubmit(message);
     };
-    window.backend.actWithServer(onSuccess, onError, new FormData(window.generalElements.adForm));
+    window.backend.postData(onSuccess, onError, new FormData(window.generalElements.adForm));
   });
 
   housingTypeSelect.addEventListener('change', function () {

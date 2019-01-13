@@ -6,7 +6,6 @@
   var onGetDataSuccess = function (response) {
     window.backend.offers = response;
   };
-
   var onGetDataError = function (errorData) {
     var errorElement = document.createElement('div');
     errorElement.style = 'z-index: 100; text-align: center; background-color: red;';
@@ -18,16 +17,25 @@
     document.body.appendChild(errorElement);
   };
 
-  var actWithServer = function (onLoad, onError, data) {
-    var xhrParam = {};
+  var postData = function (onLoad, onError, data) {
     var xhr = new XMLHttpRequest();
-    if (data) {
-      xhrParam.method = 'POST';
-      xhrParam.url = 'https://js.dump.academy/keksobooking';
-    } else {
-      xhrParam.method = 'GET';
-      xhrParam.url = 'https://js.dump.academy/keksobooking/data';
-    }
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', function () {
+      if (xhr.status === 200) {
+        onLoad();
+      } else {
+        onError();
+      }
+    });
+    xhr.addEventListener('error', function () {
+      onError();
+    });
+    xhr.open('POST', 'https://js.dump.academy/keksobooking');
+    xhr.send(data);
+  };
+
+  var getData = function (onLoad, onError) {
+    var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
@@ -37,14 +45,16 @@
       }
     });
     xhr.addEventListener('error', function () {
-      onError('Ошибка соединения');
+      onError('Не достучались до сервера. Пинов не будет :(');
     });
-    xhr.open(xhrParam.method, xhrParam.url);
-    xhr.send(data);
+    xhr.open('GET', 'https://js.dump.academy/keksobooking/data');
+    xhr.send();
   };
-  actWithServer(onGetDataSuccess, onGetDataError);
+
+  getData(onGetDataSuccess, onGetDataError);
+
   window.backend = {
     offers: offers,
-    actWithServer: actWithServer
+    postData: postData
   };
 })();

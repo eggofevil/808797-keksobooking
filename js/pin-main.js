@@ -2,6 +2,11 @@
 
 /* Модуль pin-main.js */
 (function () {
+  var AddressOffset = {
+    X: 32,
+    Y: 81
+  };
+
   var pinMain = window.generalElements.pinMain;
 
   var startingCoords = {
@@ -24,6 +29,7 @@
   };
 
   window.pinMain = {
+    AddressOffset: AddressOffset,
     startingCoords: startingCoords,
     currentCoords: currentCoords,
     setToDefault: setToDefault,
