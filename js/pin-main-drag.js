@@ -2,44 +2,35 @@
 
 /* Модуль pin-main-drag.js */
 (function () {
-  var PIN_MAIN_ADDRESS_X_OFFSET = 32;
-  var PIN_MAIN_ADDRESS_Y_OFFSET = 81;
   var pinMain = window.generalElements.pinMain;
-  var pinMainCoords = {
-    x: parseInt(pinMain.style.left, 10),
-    y: parseInt(pinMain.style.top, 10),
-  };
-  var addressCoords = {
-    x: pinMainCoords.x + PIN_MAIN_ADDRESS_X_OFFSET,
-    y: pinMainCoords.y + PIN_MAIN_ADDRESS_Y_OFFSET
-  };
+  var pinMainCoords = {};
   var mouseCoords = {};
 
   var updateCoords = function (shift) {
     var xMax = window.util.getParentElementWidth(pinMain);
     var pendingAddressCoords = {
-      x: addressCoords.x - shift.x,
-      y: addressCoords.y - shift.y
+      x: window.adForm.currentHousingAddress.x - shift.x,
+      y: window.adForm.currentHousingAddress.y - shift.y
     };
     if (pendingAddressCoords.x <= 0) {
-      addressCoords.x = 0;
+      pinMainCoords.x = 0 - window.pinMain.AddressOffset.X;
     } else if (pendingAddressCoords.x >= xMax) {
-      addressCoords.x = xMax;
+      pinMainCoords.x = xMax - window.pinMain.AddressOffset.X;
     } else {
-      addressCoords.x -= shift.x;
+      pinMainCoords.x -= shift.x;
     }
     if (pendingAddressCoords.y <= 130) {
-      addressCoords.y = 130;
+      pinMainCoords.y = 130 - window.pinMain.AddressOffset.Y;
     } else if (pendingAddressCoords.y >= 630) {
-      addressCoords.y = 630;
+      pinMainCoords.y = 630 - window.pinMain.AddressOffset.Y;
     } else {
-      addressCoords.y -= shift.y;
+      pinMainCoords.y -= shift.y;
     }
-    pinMainCoords.x = addressCoords.x - PIN_MAIN_ADDRESS_X_OFFSET;
-    pinMainCoords.y = addressCoords.y - PIN_MAIN_ADDRESS_Y_OFFSET;
   };
 
   var dragPinMain = function (evt) {
+    pinMainCoords.x = parseInt(pinMain.style.left, 10);
+    pinMainCoords.y = parseInt(pinMain.style.top, 10);
     mouseCoords.x = evt.clientX;
     mouseCoords.y = evt.clientY;
     document.addEventListener('mousemove', onPinMainMouseMove);
@@ -56,12 +47,7 @@
     updateCoords(shift);
     pinMain.style.left = pinMainCoords.x + 'px';
     pinMain.style.top = pinMainCoords.y + 'px';
-    window.adForm.updateAddressInput();
-
-    /* for testing */
-    window.testPoint.style.left = addressCoords.x + 'px';
-    window.testPoint.style.top = addressCoords.y + 'px';
-    /* for testing */
+    window.pinMain.currentCoords.updateCoords();
   };
 
   var onPinMainMouseUp = function () {
@@ -70,5 +56,4 @@
   };
 
   pinMain.addEventListener('mousedown', dragPinMain);
-  window.addressCoords = addressCoords;
 })();

@@ -42,17 +42,17 @@
     cardPhotos.appendChild(fragment);
   };
 
-  var fillCard = function (offer) {
-    cardTitle.innerText = offer.title;
-    cardAddress.innerText = offer.address;
-    cardPrice.innerText = offer.price + ' ₽/ночь';
-    cardType.innerText = housingType[offer.type] ? housingType[offer.type] : 'Неведомый теремок';
-    cardCapacity.innerText = getCardCapacityString(offer.rooms, offer.guests);
-    cardTime.innerText = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout + '.';
-    cardFeatures.innerText = offer.features.join(', ');
-    cardDescription.innerText = offer.description;
-    setCardPhotos(offer.photos);
-    cardAvatar.src = offer.avatar;
+  var fillCard = function (offerObject) {
+    cardTitle.innerText = offerObject.offer.title;
+    cardAddress.innerText = offerObject.offer.address;
+    cardPrice.innerText = offerObject.offer.price + ' ₽/ночь';
+    cardType.innerText = housingType[offerObject.offer.type] ? housingType[offerObject.offer.type] : 'Неведомый теремок';
+    cardCapacity.innerText = getCardCapacityString(offerObject.offer.rooms, offerObject.offer.guests);
+    cardTime.innerText = 'Заезд после ' + offerObject.offer.checkin + ', выезд до ' + offerObject.offer.checkout + '.';
+    cardFeatures.innerText = offerObject.offer.features.join(', ');
+    cardDescription.innerText = offerObject.offer.description;
+    setCardPhotos(offerObject.offer.photos);
+    cardAvatar.src = offerObject.author.avatar;
   };
 
   var renderCard = function (offer) {

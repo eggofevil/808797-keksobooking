@@ -25,8 +25,15 @@
     2: ['2', '1'],
     3: ['3', '2', '1']
   };
-  var updateAddressInput = function () {
-    housingAddress.value = window.addressCoords.x + ', ' + window.addressCoords.y;
+
+  var currentHousingAddress = {
+    updateHousingAddress: function (coordsX, coordsY) {
+      if (coordsX && coordsY) {
+        this.x = coordsX + window.pinMain.AddressOffset.X;
+        this.y = coordsY + window.pinMain.AddressOffset.Y;
+      }
+      housingAddress.value = this.x + ', ' + this.y;
+    }
   };
 
   var validateHousingPrice = function (housingType) {
@@ -49,15 +56,25 @@
     }
   };
 
-  var validateEmptyForm = function () {
-    updateAddressInput();
+  var setToDefault = function () {
     validateHousingPrice(housingTypeSelect.value);
     validateTimeOut(timeInSelect.value);
     validateGuests(roomsSelect.value);
   };
 
-  window.generalElements.adForm.addEventListener('reset', function () {
-    setTimeout(validateEmptyForm, 0); /* Без timout валидация происходит до чистки полей */
+  window.generalElements.adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    var onSuccess = function () {
+      var message = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+      window.generalElements.adForm.classList.add('ad-form--disabled');
+      window.adFormMessages.onSubmit(message);
+      window.generalElements.adForm.reset();
+    };
+    var onError = function () {
+      var message = document.querySelector('#error').content.querySelector('.error');
+      window.adFormMessages.onSubmit(message);
+    };
+    window.backend.postData(onSuccess, onError, new FormData(window.generalElements.adForm));
   });
 
   housingTypeSelect.addEventListener('change', function () {
@@ -70,10 +87,10 @@
     validateGuests(roomsSelect.value);
   });
 
-  updateAddressInput();
+  currentHousingAddress.updateHousingAddress(parseInt(window.pinMain.startingCoords.x, 10), parseInt(window.pinMain.startingCoords.y, 10));
 
   window.adForm = {
-    validateEmptyForm: validateEmptyForm,
-    updateAddressInput: updateAddressInput
+    currentHousingAddress: currentHousingAddress,
+    setToDefault: setToDefault,
   };
 })();
