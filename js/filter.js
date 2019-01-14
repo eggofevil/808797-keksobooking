@@ -5,6 +5,7 @@
   var filter = document.querySelector('.map__filters');
   var filterElements = filter.elements;
   var housingFeatures = filterElements['features'];
+  var lastTimout;
 
   var setHousingFeatures = function () {
     var features = [];
@@ -36,7 +37,12 @@
     window.pins.renderPins();
   };
 
-  filter.addEventListener('change', updateFilterData);
+  filter.addEventListener('change', function () {
+    if (lastTimout) {
+      window.clearTimeout(lastTimout);
+    }
+    lastTimout = setTimeout(updateFilterData, 500);
+  });
 
   window.filterData = {};
 })();
