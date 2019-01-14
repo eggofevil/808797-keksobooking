@@ -57,9 +57,11 @@
       filterKeys.forEach(function (key) {
         switch (key) {
           case 'features':
-            if (window.filterData[key].join() !== offerData[key].sort().join()) {
-              suitable = false;
-            }
+            window.filterData[key].forEach(function (selectedFeature) {
+              if (offerData[key].indexOf(selectedFeature) === -1) {
+                suitable = false;
+              }
+            });
             break;
           case 'price':
             if (window.filterData[key] !== convertPriceToRange(offerData[key])) {
