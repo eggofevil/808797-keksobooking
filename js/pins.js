@@ -82,9 +82,9 @@
 
   var removePins = function () {
     pins = document.querySelectorAll('.map__pin');
-    for (var i = 1; i < pins.length; i++) {
-      pins[i].remove();
-    }
+    pins.forEach(function (pin) {
+      pin.remove();
+    });
   };
 
   var renderPins = function () {
