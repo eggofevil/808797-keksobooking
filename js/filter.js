@@ -8,16 +8,10 @@
   var lastTimout;
 
   var setHousingFeatures = function () {
-    var selectedFeatures = Array.prototype.reduce.call(housingFeatures, function (acc, feature) {
-      if (feature.checked) {
-        return acc.concat(feature.value);
-      }
-      return acc;
-    }, []).sort();
-    if (selectedFeatures.length) {
-      return selectedFeatures;
-    }
-    return null;
+    var selectedFeatures = Array.prototype.reduce.call(housingFeatures, function (features, feature) {
+      return feature.checked ? features.concat(feature.value) : features;
+    }, []);
+    return selectedFeatures.length > 0 ? selectedFeatures : null;
   };
 
   var namesToProperties = {
