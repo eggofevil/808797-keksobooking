@@ -20,27 +20,39 @@
     return null;
   };
 
-  var updateFilterData = function () {
-    var filterData = {
-      features: setHousingFeatures(),
-      type: filterElements['housing-type'].value,
-      price: filterElements['housing-price'].value,
-      rooms: filterElements['housing-rooms'].value,
-      guests: filterElements['housing-guests'].value
-    };
+  var namesToProperties = {
+    'housing-type': 'type',
+    'housing-price': 'price',
+    'housing-rooms': 'rooms',
+    'housing-guests': 'guests'
+  };
 
-    var setWindowFilterDataObject = function () {
-      window.filterData = {};
-      for (var key in filterData) {
-        if (filterData.hasOwnProperty(key)) {
-          if (filterData[key] && filterData[key] !== 'any') {
-            window.filterData[key] = filterData[key];
+  var checkValue = function (value) {
+    if (!value || value === 'any') {
+      return null;
+    }
+    return value;
+  };
+
+  var updateFilterData = function () {
+    window.filterData = {};
+    var features = setHousingFeatures();
+    if (features && features.length) {
+      window.filterData.features = features;
+    }
+    for (var name in namesToProperties) {
+      if (namesToProperties.hasOwnProperty(name)) {
+        if (checkValue(filterElements[name].value)) {
+          //window.filterData[namesToProperties[name]] = filterElements[name].value;
+          if (name.value !== 'type') {
+            window.filterData[namesToProperties[name]] = parseInt(filterElements[name].value, 10);
+          } else {
+            window.filterData[namesToProperties[name]] = filterElements[name].value;
           }
         }
       }
-    };
-
-    setWindowFilterDataObject();
+    }
+    window.pins.renderPins();
   };
 
   filter.addEventListener('change', function () {
