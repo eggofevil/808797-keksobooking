@@ -75,7 +75,7 @@
       window.generalElements.adForm.reset();
     };
     var onError = function () {
-      var message = document.querySelector('#error').content.querySelector('.error');
+      var message = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
       window.adFormMessages.onSubmit(message);
     };
     window.backend.postData(onSuccess, onError, new FormData(window.generalElements.adForm));
