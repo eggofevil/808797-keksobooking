@@ -8,13 +8,12 @@
   var lastTimout;
 
   var setHousingFeatures = function () {
-    var features = [];
-    for (var i = 0; i < housingFeatures.length; i++) {
-      if (housingFeatures[i].checked === true) {
-        features.push(housingFeatures[i].value);
+    return Array.prototype.reduce.call(housingFeatures, function (acc, feature) {
+      if (feature.checked) {
+        return acc.concat(feature.value);
       }
-    }
-    return features.sort();
+      return acc;
+    }, []).sort();
   };
 
   var cleanFilterData = function () {
