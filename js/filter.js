@@ -28,10 +28,7 @@
   };
 
   var checkValue = function (value) {
-    if (!value || value === 'any') {
-      return null;
-    }
-    return value;
+    return !value || value === 'any' ? null : value;
   };
 
   var updateFilterData = function () {
@@ -43,7 +40,7 @@
     for (var name in namesToProperties) {
       if (namesToProperties.hasOwnProperty(name)) {
         if (checkValue(filterElements[name].value)) {
-          if (name.value !== 'type') {
+          if (namesToProperties[name] !== 'type' && namesToProperties[name] !== 'price') {
             window.filterData[namesToProperties[name]] = parseInt(filterElements[name].value, 10);
           } else {
             window.filterData[namesToProperties[name]] = filterElements[name].value;
