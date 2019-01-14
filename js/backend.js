@@ -25,6 +25,7 @@
     var onLoad = function (response) {
       window.backend.offers = response;
       window.pins.renderPins();
+      window.main.activateInputs(window.generalElements.filter.elements);
     };
     var onError = function (errorData) {
       var errorElement = document.createElement('div');
