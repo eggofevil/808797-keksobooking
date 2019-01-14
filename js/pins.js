@@ -6,6 +6,7 @@
   var PIN_HEIGHT = 70;
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinsFragment = document.createDocumentFragment();
+  var suitedOffers;
 
   var getPinCoords = function (location) {
     return {
@@ -27,14 +28,77 @@
     return pin;
   };
 
-  var renderPins = function () {
-    for (var i = 0; i < window.backend.offers.length; i++) {
-      pinsFragment.appendChild(createPin(window.backend.offers[i]));
+  var convertPriceToRange = function (price) {
+    if (price < 50000) {
+      if (price < 10000) {
+        return 'low';
+      }
+      return 'middle';
     }
+    return 'high';
+  };
+
+  var filterSuitedOffers = function () {
+    var offers = window.backend.offers;
+    suitedOffers = [];
+    var filterKeys = Object.keys(window.filterData);
+    var suitable;
+
+    if (!filterKeys.length) {
+      while (suitedOffers.length < 5) {
+        suitedOffers.push(offers[suitedOffers.length]);
+      }
+      return suitedOffers;
+    }
+
+    offers.forEach(function (offer) {
+      var offerData = offer.offer;
+      suitable = true;
+      filterKeys.forEach(function (key) {
+        switch (key) {
+          case 'features':
+            if (window.filterData[key].join() !== offerData[key].sort().join()) {
+              suitable = false;
+            }
+            break;
+          case 'price':
+            if (window.filterData[key] !== convertPriceToRange(offerData[key])) {
+              suitable = false;
+            }
+            break;
+          default:
+            if (window.filterData[key] !== offerData[key]) {
+              suitable = false;
+            }
+        }
+      });
+      if (suitable) {
+        suitedOffers.push(offer);
+      }
+    });
+    return suitedOffers;
+  };
+
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin');
+    pins.forEach(function (pin) {
+      if (!pin.classList.contains('map__pin--main')) {
+        pin.remove();
+      }
+    });
+  };
+
+  var renderPins = function () {
+    removePins();
+    suitedOffers = filterSuitedOffers();
+    suitedOffers.forEach(function (suitedOffer) {
+      pinsFragment.appendChild(createPin(suitedOffer));
+    });
     window.generalElements.mapPinsContainer.appendChild(pinsFragment);
   };
 
   window.pins = {
-    renderPins: renderPins
+    renderPins: renderPins,
+    removePins: removePins
   };
 })();
