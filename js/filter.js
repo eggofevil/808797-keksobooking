@@ -8,32 +8,39 @@
   var lastTimout;
 
   var setHousingFeatures = function () {
-    return Array.prototype.reduce.call(housingFeatures, function (acc, feature) {
+    var selectedFeatures = Array.prototype.reduce.call(housingFeatures, function (acc, feature) {
       if (feature.checked) {
         return acc.concat(feature.value);
       }
       return acc;
     }, []).sort();
-  };
-
-  var cleanFilterData = function () {
-    for (var key in window.filterData) {
-      if (window.filterData.hasOwnProperty(key)) {
-        if (window.filterData[key] === 'any' || window.filterData[key].length === 0 || !window.filterData[key]) {
-          delete window.filterData[key];
-        }
-      }
+    if (selectedFeatures.length) {
+      return selectedFeatures;
     }
+    return null;
   };
 
   var updateFilterData = function () {
-    window.filterData.features = setHousingFeatures();
-    window.filterData.type = filterElements['housing-type'].value;
-    window.filterData.price = filterElements['housing-price'].value;
-    window.filterData.rooms = parseInt(filterElements['housing-rooms'].value, 10);
-    window.filterData.guests = parseInt(filterElements['housing-guests'].value, 10);
-    cleanFilterData();
-    window.pins.renderPins();
+    var filterData = {
+      features: setHousingFeatures(),
+      type: filterElements['housing-type'].value,
+      price: filterElements['housing-price'].value,
+      rooms: filterElements['housing-rooms'].value,
+      guests: filterElements['housing-guests'].value
+    };
+
+    var setWindowFilterDataObject = function () {
+      window.filterData = {};
+      for (var key in filterData) {
+        if (filterData.hasOwnProperty(key)) {
+          if (filterData[key] && filterData[key] !== 'any') {
+            window.filterData[key] = filterData[key];
+          }
+        }
+      }
+    };
+
+    setWindowFilterDataObject();
   };
 
   filter.addEventListener('change', function () {
