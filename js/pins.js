@@ -29,53 +29,55 @@
     return pin;
   };
 
+  var convertPriceToRange = function (price) {
+    if (price < 50000) {
+      if (price < 10000) {
+        return 'low';
+      }
+      return 'middle';
+    }
+    return 'high';
+  };
+
   var filterSuitedOffers = function () {
-    var filterData = window.filterData;
     var offers = window.backend.offers;
     suitedOffers = [];
+    var filterKeys = Object.keys(window.filterData);
+    var suitable;
 
-    var convertPriceToRange = function (price) {
-      if (price < 50000) {
-        if (price < 10000) {
-          return 'low';
-        }
-        return 'middle';
-      }
-      return 'high';
-    };
-
-    if (Object.keys(filterData).length > 0) {
-      var suitable;
-      for (var offerKey in offers) {
-        if (offers.hasOwnProperty(offerKey)) {
-          suitable = true;
-          for (var filterKey in filterData) {
-            if (filterData.hasOwnProperty(filterKey)) {
-              if (filterKey === 'features') {
-                if (filterData[filterKey].join() !== offers[offerKey].offer[filterKey].sort().join()) {
-                  suitable = false;
-                }
-              } else if (filterKey === 'price') {
-                if (filterData[filterKey] !== convertPriceToRange(offers[offerKey].offer[filterKey])) {
-                  suitable = false;
-                }
-              } else {
-                if (filterData[filterKey] !== offers[offerKey].offer[filterKey]) {
-                  suitable = false;
-                }
-              }
-            }
-          }
-          if (suitable) {
-            suitedOffers.push(offers[offerKey]);
-          }
-        }
-      }
-    } else {
+    if (!filterKeys.length) {
       while (suitedOffers.length < 5) {
         suitedOffers.push(offers[suitedOffers.length]);
       }
+      return suitedOffers;
     }
+
+    offers.forEach(function (offer) {
+      var offerData = offer.offer;
+      suitable = true;
+      filterKeys.forEach(function (key) {
+        switch (key) {
+          case 'features':
+            if (window.filterData[key].join() !== offerData[key].sort().join()) {
+              suitable = false;
+            }
+            break;
+          case 'price':
+            if (window.filterData[key] !== convertPriceToRange(offerData[key])) {
+              suitable = false;
+            }
+            break;
+          default:
+            if (window.filterData[key] !== offerData[key]) {
+              suitable = false;
+            }
+        }
+      });
+      if (suitable) {
+        suitedOffers.push(offer);
+      }
+    });
+    return suitedOffers;
   };
 
   var removePins = function () {
@@ -87,7 +89,7 @@
 
   var renderPins = function () {
     removePins();
-    filterSuitedOffers();
+    suitedOffers = filterSuitedOffers();
     suitedOffers.forEach(function (suitedOffer) {
       pinsFragment.appendChild(createPin(suitedOffer));
     });
