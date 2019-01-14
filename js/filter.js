@@ -2,7 +2,7 @@
 
 /* Модуль filter.js */
 (function () {
-  var filter = document.querySelector('.map__filters');
+  var filter = window.generalElements.filter;
   var filterElements = filter.elements;
   var housingFeatures = filterElements['features'];
   var lastTimout;
@@ -49,6 +49,7 @@
       }
     }
     window.pins.renderPins();
+    window.cards.removeCard();
   };
 
   filter.addEventListener('change', function () {

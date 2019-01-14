@@ -6,7 +6,6 @@
   var PIN_HEIGHT = 70;
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinsFragment = document.createDocumentFragment();
-  var pins;
   var suitedOffers;
 
   var getPinCoords = function (location) {
@@ -81,9 +80,11 @@
   };
 
   var removePins = function () {
-    pins = document.querySelectorAll('.map__pin');
+    var pins = document.querySelectorAll('.map__pin');
     pins.forEach(function (pin) {
-      pin.remove();
+      if (!pin.classList.contains('map__pin--main')) {
+        pin.remove();
+      }
     });
   };
 
@@ -97,6 +98,7 @@
   };
 
   window.pins = {
-    renderPins: renderPins
+    renderPins: renderPins,
+    removePins: removePins
   };
 })();
