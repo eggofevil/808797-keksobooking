@@ -41,6 +41,10 @@
     housingPriceInput.placeholder = housingTypeAndPrice[housingType];
   };
 
+  var validateTimeIn = function (timeOut) {
+    timeInSelect.value = timeOut;
+  };
+
   var validateTimeOut = function (timeIn) {
     timeOutSelect.value = timeIn;
   };
@@ -82,6 +86,9 @@
   });
   timeInSelect.addEventListener('change', function () {
     validateTimeOut(timeInSelect.value);
+  });
+  timeOutSelect.addEventListener('change', function () {
+    validateTimeIn(timeOutSelect.value);
   });
   roomsSelect.addEventListener('change', function () {
     validateGuests(roomsSelect.value);

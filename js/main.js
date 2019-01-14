@@ -20,12 +20,11 @@
   };
 
   var activatePage = function () {
+    window.backend.getData();
     window.generalElements.map.classList.remove('map--faded');
     window.generalElements.adForm.classList.remove('ad-form--disabled');
     activateInputs(adFormElements);
-    activateInputs(filterElements);
     window.adForm.setToDefault();
-    window.pins.renderPins();
     window.generalElements.pinMain.removeEventListener('mousedown', activatePage);
   };
 
@@ -49,6 +48,7 @@
 
   window.main = {
     activatePage: activatePage,
-    resetToDefault: resetToDefault
+    resetToDefault: resetToDefault,
+    activateInputs: activateInputs
   };
 })();
