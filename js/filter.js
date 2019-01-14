@@ -43,7 +43,6 @@
     for (var name in namesToProperties) {
       if (namesToProperties.hasOwnProperty(name)) {
         if (checkValue(filterElements[name].value)) {
-          //window.filterData[namesToProperties[name]] = filterElements[name].value;
           if (name.value !== 'type') {
             window.filterData[namesToProperties[name]] = parseInt(filterElements[name].value, 10);
           } else {
