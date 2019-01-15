@@ -82,12 +82,20 @@
     };
     window.backend.postData(onSuccess, onError, new FormData(adForm));
   });
-
+  /*
   adForm.addEventListener('reset', function () {
-    setTimeout(function () { /* Без timout валидация происходит до чистки полей */
+    setTimeout(function () { /* Без timout валидация происходит до чистки полей
       window.adForm.resetPressed = true;
       window.main.resetToDefault();
     }, 0);
+  });
+*/
+  var resetButton = adForm.querySelector('.ad-form__reset');
+
+  resetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    window.adForm.resetPressed = true;
+    window.main.resetToDefault();
   });
 
   housingTypeSelect.addEventListener('change', function () {

@@ -20,10 +20,10 @@
   };
 
   var activatePage = function () {
-    if (!window.adForm.resetPressed) {
-      window.backend.getData();
-    } else {
+    if (window.adForm.resetPressed) {
       window.pins.renderPins();
+    } else {
+      window.backend.getData();
     }
     window.adForm.resetPressed = false;
     window.generalElements.map.classList.remove('map--faded');
@@ -34,6 +34,9 @@
   };
 
   var resetToDefault = function () {
+    if (window.adForm.resetPressed) {
+      window.generalElements.adForm.reset();
+    }
     window.generalElements.map.classList.add('map--faded');
     window.generalElements.adForm.classList.add('ad-form--disabled');
     disableInputs(adFormElements);
