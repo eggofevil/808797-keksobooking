@@ -71,19 +71,23 @@
     renderElement(cardPhotos, offer.photos, formPhotoAttributes);
   };
 
+  var removeCard = function (evt) {
+    if (!evt || evt.type === 'click' || evt.key === 'Escape') {
+      card.removeEventListener('click', removeCard);
+      document.removeEventListener('keydown', removeCard);
+      card.remove();
+    }
+  };
+
   var renderCard = function (offer) {
     if (!document.querySelector('card__popup')) {
       window.generalElements.map.insertBefore(card, mapFiltersContainer);
+      cardClose.addEventListener('click', removeCard);
+      document.addEventListener('keydown', removeCard);
     }
     cardAvatar.src = offer.author.avatar;
     fillCard(offer.offer);
   };
-
-  var removeCard = function () {
-    card.remove();
-  };
-
-  cardClose.addEventListener('click', removeCard);
 
   window.cards = {
     renderCard: renderCard,
