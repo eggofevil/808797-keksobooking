@@ -20,7 +20,12 @@
   };
 
   var activatePage = function () {
-    window.backend.getData();
+    if (!window.adForm.resetPressed) {
+      window.backend.getData();
+    } else {
+      window.pins.renderPins();
+    }
+    window.adForm.resetPressed = false;
     window.generalElements.map.classList.remove('map--faded');
     window.generalElements.adForm.classList.remove('ad-form--disabled');
     activateInputs(adFormElements);
@@ -41,10 +46,6 @@
     window.cards.removeCard();
     window.generalElements.pinMain.addEventListener('mousedown', activatePage);
   };
-
-  window.generalElements.adForm.addEventListener('reset', function () {
-    setTimeout(resetToDefault, 0); /* Без timout валидация происходит до чистки полей */
-  });
 
   resetToDefault();
 

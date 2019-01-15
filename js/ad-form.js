@@ -2,7 +2,8 @@
 
 /* Модуль ad-form.js */
 (function () {
-  var adFormElements = window.generalElements.adForm.elements;
+  var adForm = window.generalElements.adForm;
+  var adFormElements = adForm.elements;
   var housingAddress = adFormElements.address;
   var housingTypeSelect = adFormElements.type;
   var housingPriceInput = adFormElements.price;
@@ -11,6 +12,7 @@
   var roomsSelect = adFormElements.rooms;
   var guestsSelect = adFormElements.capacity;
   var guestsSelectOptions = guestsSelect.children;
+  var resetPressed;
 
   var housingTypeAndPrice = {
     bungalo: 0,
@@ -66,19 +68,26 @@
     validateGuests(roomsSelect.value);
   };
 
-  window.generalElements.adForm.addEventListener('submit', function (evt) {
+  adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     var onSuccess = function () {
       var message = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
-      window.generalElements.adForm.classList.add('ad-form--disabled');
+      adForm.classList.add('ad-form--disabled');
       window.adFormMessages.onSubmit(message);
-      window.generalElements.adForm.reset();
+      window.main.resetToDefault();
     };
     var onError = function () {
       var message = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
       window.adFormMessages.onSubmit(message);
     };
-    window.backend.postData(onSuccess, onError, new FormData(window.generalElements.adForm));
+    window.backend.postData(onSuccess, onError, new FormData(adForm));
+  });
+
+  adForm.addEventListener('reset', function () {
+    setTimeout(function () { /* Без timout валидация происходит до чистки полей */
+      window.adForm.resetPressed = true;
+      window.main.resetToDefault();
+    }, 0);
   });
 
   housingTypeSelect.addEventListener('change', function () {
@@ -97,6 +106,7 @@
   currentHousingAddress.updateHousingAddress(parseInt(window.pinMain.startingCoords.x, 10), parseInt(window.pinMain.startingCoords.y, 10));
 
   window.adForm = {
+    resetPressed: resetPressed,
     currentHousingAddress: currentHousingAddress,
     setToDefault: setToDefault,
   };
