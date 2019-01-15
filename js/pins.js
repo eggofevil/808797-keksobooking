@@ -74,7 +74,7 @@
             }
         }
       });
-      if (suitable) {
+      if (suitable && suitedOffers.length < 5) {
         suitedOffers.push(offer);
       }
     });
