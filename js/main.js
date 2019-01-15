@@ -34,6 +34,8 @@
     disableInputs(adFormElements);
     disableInputs(filterElements);
     window.pinMain.setToDefault();
+    window.generalElements.filter.reset();
+    window.filterData = [];
     window.adForm.setToDefault();
     window.pins.removePins();
     window.cards.removeCard();
