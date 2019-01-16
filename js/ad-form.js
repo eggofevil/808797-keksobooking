@@ -21,13 +21,6 @@
     palace: 10000
   };
 
-  var roomsAndGuests = {
-    100: ['0'],
-    1: ['1'],
-    2: ['2', '1'],
-    3: ['3', '2', '1']
-  };
-
   var currentHousingAddress = {
     updateHousingAddress: function (coordsX, coordsY) {
       if (coordsX && coordsY) {
@@ -52,12 +45,21 @@
   };
 
   var validateGuests = function (rooms) {
-    guestsSelect.value = roomsAndGuests[rooms][0];
-    var i = guestsSelectOptions.length;
-    while (i--) {
-      guestsSelectOptions[i].removeAttribute('disabled');
-      if (roomsAndGuests[rooms].indexOf(guestsSelectOptions[i].value) === -1) {
-        guestsSelectOptions[i].setAttribute('disabled', '');
+    var lastOptionIndex = guestsSelectOptions.length - 1;
+    if (rooms !== '100') {
+      guestsSelect.value = roomsSelect.value;
+      guestsSelectOptions[lastOptionIndex].setAttribute('disabled', '');
+      while (lastOptionIndex--) {
+        guestsSelectOptions[lastOptionIndex].removeAttribute('disabled');
+        if (guestsSelectOptions[lastOptionIndex].value > rooms) {
+          guestsSelectOptions[lastOptionIndex].setAttribute('disabled', '');
+        }
+      }
+    } else {
+      guestsSelect.value = guestsSelectOptions[lastOptionIndex].value;
+      lastOptionIndex--;
+      while (lastOptionIndex--) {
+        guestsSelectOptions[lastOptionIndex].setAttribute('disabled', '');
       }
     }
   };
@@ -82,14 +84,7 @@
     };
     window.backend.postData(onSuccess, onError, new FormData(adForm));
   });
-  /*
-  adForm.addEventListener('reset', function () {
-    setTimeout(function () { /* Без timout валидация происходит до чистки полей
-      window.adForm.resetPressed = true;
-      window.main.resetToDefault();
-    }, 0);
-  });
-*/
+
   var resetButton = adForm.querySelector('.ad-form__reset');
 
   resetButton.addEventListener('click', function (evt) {

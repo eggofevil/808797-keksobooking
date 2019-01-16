@@ -4,6 +4,7 @@
 (function () {
   var adFormElements = window.generalElements.adForm.elements;
   var filterElements = window.generalElements.filter.elements;
+  var pageInputs = document.querySelectorAll('input, select, textarea');
 
   var activateInputs = function (inputs) {
     var i = inputs.length;
@@ -51,6 +52,14 @@
   };
 
   resetToDefault();
+
+  pageInputs.forEach(function (input) { /* что бы не закрывать карточку по нажатию Escape из полей формы */
+    input.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Escape') {
+        evt.stopPropagation();
+      }
+    });
+  });
 
   window.main = {
     activatePage: activatePage,
