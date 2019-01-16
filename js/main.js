@@ -51,15 +51,15 @@
     window.generalElements.pinMain.addEventListener('mousedown', activatePage);
   };
 
-  resetToDefault();
+  var stopEscapeBubbling = function (evt) {
+    if (evt.key === 'Escape') {
+      evt.stopPropagation();
+    }
+  };
 
-  pageInputs.forEach(function (input) { /* что бы не закрывать карточку по нажатию Escape из полей формы */
-    input.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Escape') {
-        evt.stopPropagation();
-      }
-    });
-  });
+  resetToDefault();
+  window.generalElements.filter.addEventListener('keydown', stopEscapeBubbling);
+  window.generalElements.adForm.addEventListener('keydown', stopEscapeBubbling);
 
   window.main = {
     activatePage: activatePage,
