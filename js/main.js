@@ -4,7 +4,6 @@
 (function () {
   var adFormElements = window.generalElements.adForm.elements;
   var filterElements = window.generalElements.filter.elements;
-  var pageInputs = document.querySelectorAll('input, select, textarea');
 
   var activateInputs = function (inputs) {
     var i = inputs.length;
