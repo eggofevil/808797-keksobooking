@@ -6,7 +6,6 @@
   var PIN_HEIGHT = 70;
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinsFragment = document.createDocumentFragment();
-  var suitedOffers;
 
   var getPinCoords = function (location) {
     return {
@@ -38,47 +37,32 @@
     return 'high';
   };
 
-  var filterSuitedOffers = function () {
-    var offers = window.backend.offers;
-    suitedOffers = [];
-    var filterKeys = Object.keys(window.filterData);
-    var suitable;
-
-    if (!filterKeys.length) {
-      while (suitedOffers.length < 5) {
-        suitedOffers.push(offers[suitedOffers.length]);
-      }
-      return suitedOffers;
-    }
-
-    offers.forEach(function (offer) {
-      var offerData = offer.offer;
-      suitable = true;
-      filterKeys.forEach(function (key) {
-        switch (key) {
-          case 'features':
-            window.filterData[key].forEach(function (selectedFeature) {
-              if (offerData[key].indexOf(selectedFeature) === -1) {
-                suitable = false;
+  var filterOffers = function () {
+    return window.backend.offers.filter(function (fullOffer) {
+      for (var filter in window.filterData) {
+        if (window.filterData.hasOwnProperty(filter)) {
+          switch (filter) {
+            case 'features':
+              for (var index in window.filterData.features) {
+                if (fullOffer.offer.features.indexOf(window.filterData.features[index]) < 0) {
+                  return null;
+                }
               }
-            });
-            break;
-          case 'price':
-            if (window.filterData[key] !== convertPriceToRange(offerData[key])) {
-              suitable = false;
-            }
-            break;
-          default:
-            if (window.filterData[key] !== offerData[key]) {
-              suitable = false;
-            }
+              break;
+            case 'price':
+              if (fullOffer.offer.price !== convertPriceToRange(window.filterData.price)) {
+                return null;
+              }
+              break;
+            default:
+              if (fullOffer.offer[filter] !== window.filterData[filter]) {
+                return null;
+              }
+          }
         }
-      });
-      if (suitable && suitedOffers.length < 5) {
-        suitedOffers.push(offer);
       }
+      return fullOffer;
     });
-    return suitedOffers;
   };
 
   var removePins = function () {
@@ -92,10 +76,10 @@
 
   var renderPins = function () {
     removePins();
-    suitedOffers = filterSuitedOffers();
-    suitedOffers.forEach(function (suitedOffer) {
-      pinsFragment.appendChild(createPin(suitedOffer));
-    });
+    var suitedOffers = filterOffers();
+    for (var i = 0; i < Math.min(suitedOffers.length, 5); i++) {
+      pinsFragment.appendChild(createPin(suitedOffers[i]));
+    }
     window.generalElements.mapPinsContainer.appendChild(pinsFragment);
   };
 
