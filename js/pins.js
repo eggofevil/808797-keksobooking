@@ -50,7 +50,7 @@
               }
               break;
             case 'price':
-              if (fullOffer.offer.price !== convertPriceToRange(window.filterData.price)) {
+              if (convertPriceToRange(fullOffer.offer.price) !== window.filterData.price) {
                 return null;
               }
               break;

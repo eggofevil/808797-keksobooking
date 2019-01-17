@@ -14,7 +14,7 @@
     return selectedFeatures.length > 0 ? selectedFeatures : null;
   };
 
-  var namesToProperties = {
+  var nameToProperty = {
     'housing-type': 'type',
     'housing-price': 'price',
     'housing-rooms': 'rooms',
@@ -22,7 +22,10 @@
   };
 
   var checkValue = function (value) {
-    return !value || value === 'any' ? null : value;
+    if (!value || value === 'any') {
+      return null;
+    }
+    return parseInt(value, 10) ? parseInt(value, 10) : value;
   };
 
   var updateFilterData = function () {
@@ -31,14 +34,11 @@
     if (features && features.length) {
       window.filterData.features = features;
     }
-    for (var name in namesToProperties) {
-      if (namesToProperties.hasOwnProperty(name)) {
-        if (checkValue(filterElements[name].value)) {
-          if (namesToProperties[name] !== 'type' && namesToProperties[name] !== 'price') {
-            window.filterData[namesToProperties[name]] = parseInt(filterElements[name].value, 10);
-          } else {
-            window.filterData[namesToProperties[name]] = filterElements[name].value;
-          }
+    for (var name in nameToProperty) {
+      if (nameToProperty.hasOwnProperty(name)) {
+        var result = checkValue(filterElements[name].value);
+        if (result) {
+          window.filterData[nameToProperty[name]] = result;
         }
       }
     }
