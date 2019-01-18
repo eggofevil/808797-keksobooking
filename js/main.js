@@ -52,15 +52,6 @@
     }
   };
 
-  //!!!
-  document.addEventListener('reset', function (evt) {
-    console.log('Событие reset документ');
-    console.log(evt);
-    //window.adForm.setToDefault();
-    //resetToDefault();
-  });
-  //!!!
-
   disableInputs(adFormElements);
   disableInputs(filterElements);
   window.pinMain.setToDefault();
