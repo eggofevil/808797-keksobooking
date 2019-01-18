@@ -2,6 +2,8 @@
 
 /* Модуль backend.js */
 (function () {
+  var XHR_RESPONSE_SUCCESS_STATUS = 200;
+  
   var offers;
 
   var onXHRError = function (text, status) {
@@ -34,7 +36,7 @@
     var address = 'https://js.dump.academy/keksobooking/data';
 
     var onGetDataLoad = function (status, response, statusText) {
-      if (status === 200) {
+      if (status === XHR_RESPONSE_SUCCESS_STATUS) {
         window.backend.offers = response;
         window.pins.renderPins();
       } else {
@@ -55,6 +57,7 @@
   };
 
   window.backend = {
+    XHR_RESPONSE_SUCCESS_STATUS: XHR_RESPONSE_SUCCESS_STATUS,
     offers: offers,
     postData: postData,
     getData: getData

@@ -2,8 +2,11 @@
 
 /* Модуль pins.js */
 (function () {
+  var MIDDLE_PRICE_MAX = 50000;
+  var LOW_PRICE_MAX = 10000;
   var PIN_WIDTH = 50;
   var PIN_HEIGHT = 70;
+
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinsFragment = document.createDocumentFragment();
 
@@ -28,8 +31,8 @@
   };
 
   var convertPriceToRange = function (price) {
-    if (price < 50000) {
-      if (price < 10000) {
+    if (price < MIDDLE_PRICE_MAX) {
+      if (price < LOW_PRICE_MAX) {
         return 'low';
       }
       return 'middle';

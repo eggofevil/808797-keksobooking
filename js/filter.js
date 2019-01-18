@@ -2,6 +2,8 @@
 
 /* Модуль filter.js */
 (function () {
+  var PRESET_TIMEOUT = 500;
+
   var filter = window.generalElements.filter;
   var filterElements = filter.elements;
   var housingFeatures = filterElements['features'];
@@ -50,7 +52,7 @@
     if (lastTimout) {
       window.clearTimeout(lastTimout);
     }
-    lastTimout = setTimeout(updateFilterData, 500);
+    lastTimout = setTimeout(updateFilterData, PRESET_TIMEOUT);
   });
 
   window.filterData = {};

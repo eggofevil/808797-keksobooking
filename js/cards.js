@@ -27,7 +27,7 @@
   };
 
   var getCardCapacityString = function (rooms, guests) {
-    return rooms + ' ' + window.util.declineWord(rooms, ['комната', 'комнаты', 'комнат']) + ' ' + 'для ' + guests + ' ' + (guests > 1 ? 'гостей' : 'гостя');
+    return rooms + ' ' + window.util.declineWord(rooms, ['комната', 'комнаты', 'комнат']) + ' ' + 'для ' + guests + ' ' + window.util.declineWord(guests, ['гостя', 'готстей', 'гостей']);
   };
 
   var formIconAttributes = function (feature) {

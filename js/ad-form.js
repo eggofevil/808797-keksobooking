@@ -2,6 +2,13 @@
 
 /* Модуль ad-form.js */
 (function () {
+  var HousingMaxPrice = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000
+  };
+
   var adForm = window.generalElements.adForm;
   var adFormElements = adForm.elements;
   var housingAddress = adFormElements.address;
@@ -16,10 +23,10 @@
   var resetPressed;
 
   var housingTypeAndPrice = {
-    bungalo: 0,
-    flat: 1000,
-    house: 5000,
-    palace: 10000
+    bungalo: HousingMaxPrice.BUNGALO,
+    flat: HousingMaxPrice.FLAT,
+    house: HousingMaxPrice.HOUSE,
+    palace: HousingMaxPrice.PALACE
   };
 
   var currentHousingAddress = {
@@ -74,7 +81,7 @@
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     var onSuccess = function (status) {
-      if (status === 200) {
+      if (status === window.backend.XHR_RESPONSE_SUCCESS_STATUS) {
         var message = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
         window.main.resetToDefault();
         adForm.reset();
