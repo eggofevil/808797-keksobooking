@@ -29,24 +29,20 @@
     window.generalElements.map.classList.remove('map--faded');
     window.generalElements.adForm.classList.remove('ad-form--disabled');
     activateInputs(adFormElements);
-    window.adForm.setToDefault();
     window.generalElements.pinMain.removeEventListener('mousedown', activatePage);
   };
 
   var resetToDefault = function () {
-    if (window.adForm.resetPressed) {
-      window.generalElements.adForm.reset();
-    }
     window.generalElements.map.classList.add('map--faded');
     window.generalElements.adForm.classList.add('ad-form--disabled');
     disableInputs(adFormElements);
     disableInputs(filterElements);
-    window.pinMain.setToDefault();
     window.generalElements.filter.reset();
     window.filterData = [];
-    window.adForm.setToDefault();
     window.pins.removePins();
     window.cards.removeCard();
+    window.adForm.validate();
+    window.pinMain.setToDefault();
     window.generalElements.pinMain.addEventListener('mousedown', activatePage);
   };
 
@@ -56,7 +52,20 @@
     }
   };
 
-  resetToDefault();
+  //!!!
+  document.addEventListener('reset', function (evt) {
+    console.log('Событие reset документ');
+    console.log(evt);
+    //window.adForm.setToDefault();
+    //resetToDefault();
+  });
+  //!!!
+
+  disableInputs(adFormElements);
+  disableInputs(filterElements);
+  window.pinMain.setToDefault();
+  window.adForm.validate();
+  window.generalElements.pinMain.addEventListener('mousedown', activatePage);
   window.generalElements.filter.addEventListener('keydown', stopEscapeBubbling);
   window.generalElements.adForm.addEventListener('keydown', stopEscapeBubbling);
 

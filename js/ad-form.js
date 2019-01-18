@@ -12,6 +12,7 @@
   var roomsSelect = adFormElements.rooms;
   var guestsSelect = adFormElements.capacity;
   var guestsSelectOptions = guestsSelect.children;
+  var resetButton = adForm.querySelector('.ad-form__reset');
   var resetPressed;
 
   var housingTypeAndPrice = {
@@ -64,7 +65,7 @@
     }
   };
 
-  var setToDefault = function () {
+  var validate = function () {
     validateHousingPrice(housingTypeSelect.value);
     validateTimeOut(timeInSelect.value);
     validateGuests(roomsSelect.value);
@@ -72,11 +73,16 @@
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    var onSuccess = function () {
-      var message = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
-      adForm.classList.add('ad-form--disabled');
-      window.adFormMessages.onSubmit(message);
-      window.main.resetToDefault();
+    var onSuccess = function (status) {
+      if (status === 200) {
+        var message = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+        window.main.resetToDefault();
+        adForm.reset();
+        validate();
+        window.adFormMessages.onSubmit(message);
+      } else {
+        onError();
+      }
     };
     var onError = function () {
       var message = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
@@ -84,15 +90,12 @@
     };
     window.backend.postData(onSuccess, onError, new FormData(adForm));
   });
-
-  var resetButton = adForm.querySelector('.ad-form__reset');
-
-  resetButton.addEventListener('click', function (evt) {
-    evt.preventDefault();
+  resetButton.addEventListener('click', function () {
+    adForm.reset();
     window.adForm.resetPressed = true;
     window.main.resetToDefault();
+    validate();
   });
-
   housingTypeSelect.addEventListener('change', function () {
     validateHousingPrice(housingTypeSelect.value);
   });
@@ -106,11 +109,9 @@
     validateGuests(roomsSelect.value);
   });
 
-  currentHousingAddress.updateHousingAddress(parseInt(window.pinMain.startingCoords.x, 10), parseInt(window.pinMain.startingCoords.y, 10));
-
   window.adForm = {
+    validate: validate,
     resetPressed: resetPressed,
     currentHousingAddress: currentHousingAddress,
-    setToDefault: setToDefault,
   };
 })();

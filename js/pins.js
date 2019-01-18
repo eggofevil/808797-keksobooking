@@ -81,6 +81,7 @@
       pinsFragment.appendChild(createPin(suitedOffers[i]));
     }
     window.generalElements.mapPinsContainer.appendChild(pinsFragment);
+    window.main.activateInputs(window.generalElements.filter.elements);
   };
 
   window.pins = {
