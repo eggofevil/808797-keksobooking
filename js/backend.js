@@ -3,7 +3,7 @@
 /* Модуль backend.js */
 (function () {
   var XHR_RESPONSE_SUCCESS_STATUS = 200;
-  
+
   var offers;
 
   var onXHRError = function (text, status) {
