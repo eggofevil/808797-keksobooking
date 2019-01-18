@@ -71,11 +71,15 @@
     renderElement(cardPhotos, offer.photos, formPhotoAttributes);
   };
 
-  var removeCard = function (evt) {
-    if (!evt || evt.type === 'click' || evt.key === 'Escape') {
-      card.removeEventListener('click', removeCard);
-      document.removeEventListener('keydown', removeCard);
-      card.remove();
+  var removeCard = function () {
+    card.removeEventListener('click', removeCard);
+    document.removeEventListener('keydown', onOpenedCardEscapeKeydown);
+    card.remove();
+  };
+
+  var onOpenedCardEscapeKeydown = function (evt) {
+    if (evt.key === 'Escape') {
+      removeCard();
     }
   };
 
@@ -83,7 +87,7 @@
     if (!document.querySelector('card__popup')) {
       window.generalElements.map.insertBefore(card, mapFiltersContainer);
       cardClose.addEventListener('click', removeCard);
-      document.addEventListener('keydown', removeCard);
+      document.addEventListener('keydown', onOpenedCardEscapeKeydown);
     }
     cardAvatar.src = offer.author.avatar;
     fillCard(offer.offer);
